@@ -65,7 +65,7 @@ export default function Index() {
     {
       name: "Canada Discovery",
       location: "Toronto, Vancouver, Montreal",
-      duration: "14 days",
+      duration: "21 days",
       price: "3400 CAD",
       description: "Explore Canadian culture, visit top universities, and experience the beauty of Canada's diverse landscapes.",
       features: [
@@ -74,12 +74,13 @@ export default function Index() {
         "City exploration",
         "Nature adventures"
       ],
+      image: "https://cdn.poehali.dev/projects/479fc8a9-e635-4227-9936-195c290440c2/files/c48cb2cd-9ea3-434c-b130-1de3e9d3cef7.jpg",
       featured: true
     },
     {
       name: "Europe Journey",
       location: "London, Paris, Brussels",
-      duration: "10 days",
+      duration: "17 days",
       price: "2800 CAD",
       description: "Historical landmarks tour with language practice and cultural immersion across Europe's most iconic cities.",
       features: [
@@ -88,12 +89,13 @@ export default function Index() {
         "Historical tours",
         "Cultural activities"
       ],
+      image: "https://cdn.poehali.dev/projects/479fc8a9-e635-4227-9936-195c290440c2/files/9b0e55f3-0f45-44b0-a3e7-cbd60d83b68c.jpg",
       featured: false
     },
     {
       name: "Australia Experience",
       location: "Sydney, Melbourne",
-      duration: "12 days",
+      duration: "19 days",
       price: "3200 CAD",
       description: "Marine biology activities, wildlife encounters, and English language immersion in Australia's vibrant cities.",
       features: [
@@ -102,6 +104,7 @@ export default function Index() {
         "Marine biology",
         "English immersion"
       ],
+      image: "https://cdn.poehali.dev/projects/479fc8a9-e635-4227-9936-195c290440c2/files/98f10bc4-483f-4bd0-ac52-0df0d59c2e86.jpg",
       featured: false
     }
   ];
@@ -231,16 +234,23 @@ export default function Index() {
           </div>
           <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {programs.map((program, index) => (
-              <Card key={index} className={`border-none shadow-lg hover:shadow-xl transition-all ${program.featured ? 'ring-2 ring-primary' : ''}`}>
+              <Card key={index} className={`border-none shadow-lg hover:shadow-xl transition-all overflow-hidden ${program.featured ? 'ring-2 ring-primary' : ''}`}>
                 {program.featured && (
-                  <div className="bg-gradient-to-r from-primary to-secondary text-white py-3 px-6 rounded-t-xl">
+                  <div className="bg-gradient-to-r from-primary to-secondary text-white py-3 px-6">
                     <div className="flex items-center justify-center gap-2 font-semibold">
                       <Icon name="Star" size={20} className="fill-white" />
                       Featured Program
                     </div>
                   </div>
                 )}
-                <CardContent className="pt-8 pb-8">
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={program.image} 
+                    alt={program.name}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                  />
+                </div>
+                <CardContent className="pt-6 pb-8">
                   <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-3">{program.name}</h3>
                   <div className="flex items-center text-muted-foreground mb-4">
                     <Icon name="MapPin" size={18} className="mr-2 text-primary" />
