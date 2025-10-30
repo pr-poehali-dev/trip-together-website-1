@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 export default function Index() {
   const [activeSection, setActiveSection] = useState('home');
@@ -42,6 +43,69 @@ export default function Index() {
     setFormData({ name: '', email: '', phone: '', message: '' });
   };
 
+  const features = [
+    {
+      icon: "GraduationCap",
+      title: "Educational Focus",
+      description: "Immersive learning experiences designed for students"
+    },
+    {
+      icon: "Shield",
+      title: "Safe & Secure",
+      description: "Your safety is our top priority on every trip"
+    },
+    {
+      icon: "Globe",
+      title: "Global Network",
+      description: "Destinations across continents and cultures"
+    }
+  ];
+
+  const programs = [
+    {
+      name: "Canada Discovery",
+      location: "Toronto, Vancouver, Montreal",
+      duration: "14 days",
+      price: "3400 CAD",
+      description: "Explore Canadian culture, visit top universities, and experience the beauty of Canada's diverse landscapes.",
+      features: [
+        "University tours",
+        "Cultural workshops",
+        "City exploration",
+        "Nature adventures"
+      ],
+      featured: true
+    },
+    {
+      name: "Europe Journey",
+      location: "London, Paris, Brussels",
+      duration: "10 days",
+      price: "2800 CAD",
+      description: "Historical landmarks tour with language practice and cultural immersion across Europe's most iconic cities.",
+      features: [
+        "Museum visits",
+        "Language sessions",
+        "Historical tours",
+        "Cultural activities"
+      ],
+      featured: false
+    },
+    {
+      name: "Australia Experience",
+      location: "Sydney, Melbourne",
+      duration: "12 days",
+      price: "3200 CAD",
+      description: "Marine biology activities, wildlife encounters, and English language immersion in Australia's vibrant cities.",
+      features: [
+        "Wildlife tours",
+        "Beach activities",
+        "Marine biology",
+        "English immersion"
+      ],
+      featured: false
+    }
+  ];
+
   const testimonials = [
     {
       name: "Sarah Johnson",
@@ -69,223 +133,169 @@ export default function Index() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-accent/30">
-      <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 shadow-sm">
+    <div className="min-h-screen bg-background">
+      <nav className="fixed top-0 w-full bg-white border-b border-border z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Icon name="Plane" size={32} className="text-primary" />
-              <span className="text-2xl font-bold text-primary">Trip Together</span>
+              <span className="text-2xl font-bold text-foreground">Trip Together</span>
             </div>
             <div className="hidden md:flex space-x-8">
               {['home', 'programs', 'reviews', 'about', 'gallery', 'documents', 'contact'].map((section) => (
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
-                  className={`capitalize hover:text-primary transition-colors ${
-                    activeSection === section ? 'text-primary font-semibold' : 'text-foreground'
+                  className={`capitalize text-sm font-medium transition-colors ${
+                    activeSection === section ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {section}
                 </button>
               ))}
             </div>
+            <Sheet>
+              <SheetTrigger asChild className="md:hidden">
+                <Button variant="ghost" size="icon">
+                  <Icon name="Menu" size={24} />
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <div className="flex flex-col space-y-4 mt-8">
+                  {['home', 'programs', 'reviews', 'about', 'gallery', 'documents', 'contact'].map((section) => (
+                    <button
+                      key={section}
+                      onClick={() => scrollToSection(section)}
+                      className="capitalize text-left text-lg font-medium text-foreground hover:text-primary transition-colors"
+                    >
+                      {section}
+                    </button>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </nav>
 
-      <section id="home" className="pt-32 pb-20 px-4">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6 animate-fade-in">
-              <h1 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">
-                Your Gateway to 
-                <span className="text-primary"> Educational Adventures</span>
-              </h1>
-              <p className="text-xl text-muted-foreground">
-                Join thousands of students exploring the world through meaningful educational experiences
-              </p>
-              <div className="flex space-x-4">
-                <Button size="lg" onClick={() => scrollToSection('programs')} className="hover:scale-105 transition-transform">
-                  <Icon name="Compass" size={20} className="mr-2" />
-                  Explore Programs
-                </Button>
-                <Button size="lg" variant="outline" onClick={() => scrollToSection('contact')}>
-                  Get Started
-                </Button>
-              </div>
-              <div className="flex items-center space-x-8 pt-4">
-                <div>
-                  <div className="text-3xl font-bold text-primary">10,000+</div>
-                  <div className="text-sm text-muted-foreground">Happy Students</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-primary">25+</div>
-                  <div className="text-sm text-muted-foreground">Countries</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-primary">15</div>
-                  <div className="text-sm text-muted-foreground">Years Experience</div>
-                </div>
-              </div>
-            </div>
-            <div className="relative">
-              <img 
-                src={galleryImages[0]} 
-                alt="Students traveling" 
-                className="rounded-2xl shadow-2xl w-full h-[500px] object-cover hover:scale-105 transition-transform duration-300"
-              />
-            </div>
+      <section id="home" className="pt-32 pb-24 px-4">
+        <div className="container mx-auto max-w-4xl text-center">
+          <h1 className="text-5xl md:text-7xl font-bold text-foreground leading-tight mb-6">
+            Explore.<br />
+            Learn.<br />
+            Grow.
+          </h1>
+          <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
+            Join thousands of students on educational adventures around the world. Transform your learning experience with Trip Together.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="text-lg px-8 py-6 rounded-xl" onClick={() => scrollToSection('programs')}>
+              <Icon name="Plane" size={20} className="mr-2" />
+              View Programs
+            </Button>
+            <Button size="lg" variant="outline" className="text-lg px-8 py-6 rounded-xl" onClick={() => scrollToSection('contact')}>
+              <Icon name="MessageCircle" size={20} className="mr-2" />
+              Get in Touch
+            </Button>
           </div>
         </div>
       </section>
 
-      <section id="programs" className="py-20 px-4 bg-white">
+      <section className="py-16 px-4">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Our Programs</h2>
-            <p className="text-xl text-muted-foreground">Carefully designed educational journeys</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="hover:shadow-xl transition-shadow border-2 border-primary">
-              <CardHeader>
-                <div className="flex items-center justify-between mb-4">
-                  <Icon name="MapPin" size={40} className="text-primary" />
-                  <span className="text-3xl font-bold text-primary">$3,400</span>
-                </div>
-                <CardTitle className="text-2xl">Canada Adventure</CardTitle>
-                <CardDescription>14-day immersive experience</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <ul className="space-y-2">
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-primary mr-2 mt-1" />
-                    <span>Visit Toronto, Montreal & Vancouver</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-primary mr-2 mt-1" />
-                    <span>University campus tours</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-primary mr-2 mt-1" />
-                    <span>Cultural workshops & activities</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-primary mr-2 mt-1" />
-                    <span>Accommodation & meals included</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-primary mr-2 mt-1" />
-                    <span>24/7 support & supervision</span>
-                  </li>
-                </ul>
-                <Button className="w-full" onClick={() => scrollToSection('contact')}>
-                  Apply Now
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <div className="flex items-center justify-between mb-4">
-                  <Icon name="GraduationCap" size={40} className="text-secondary" />
-                  <span className="text-2xl font-bold text-secondary">$2,800</span>
-                </div>
-                <CardTitle className="text-2xl">Europe Discovery</CardTitle>
-                <CardDescription>10-day cultural journey</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <ul className="space-y-2">
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-secondary mr-2 mt-1" />
-                    <span>London, Paris & Brussels</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-secondary mr-2 mt-1" />
-                    <span>Historical landmarks tour</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-secondary mr-2 mt-1" />
-                    <span>Language practice sessions</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-secondary mr-2 mt-1" />
-                    <span>Museum & gallery visits</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-secondary mr-2 mt-1" />
-                    <span>Group activities & excursions</span>
-                  </li>
-                </ul>
-                <Button variant="outline" className="w-full" onClick={() => scrollToSection('contact')}>
-                  Learn More
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <div className="flex items-center justify-between mb-4">
-                  <Icon name="Palmtree" size={40} className="text-secondary" />
-                  <span className="text-2xl font-bold text-secondary">$3,200</span>
-                </div>
-                <CardTitle className="text-2xl">Australia Experience</CardTitle>
-                <CardDescription>12-day adventure program</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <ul className="space-y-2">
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-secondary mr-2 mt-1" />
-                    <span>Sydney & Melbourne exploration</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-secondary mr-2 mt-1" />
-                    <span>Marine biology activities</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-secondary mr-2 mt-1" />
-                    <span>Wildlife encounters</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-secondary mr-2 mt-1" />
-                    <span>Beach & outdoor activities</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Icon name="Check" size={20} className="text-secondary mr-2 mt-1" />
-                    <span>English language immersion</span>
-                  </li>
-                </ul>
-                <Button variant="outline" className="w-full" onClick={() => scrollToSection('contact')}>
-                  Learn More
-                </Button>
-              </CardContent>
-            </Card>
+          <div className="grid md:grid-cols-3 gap-6">
+            {features.map((feature, index) => (
+              <Card key={index} className="border-none shadow-lg hover:shadow-xl transition-shadow">
+                <CardContent className="pt-8 pb-8 text-center">
+                  <div className="flex justify-center mb-6">
+                    <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center">
+                      <Icon name={feature.icon as any} size={40} className="text-primary" />
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold text-foreground mb-3">{feature.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
-      <section id="reviews" className="py-20 px-4 bg-accent/20">
+      <section id="programs" className="py-20 px-4">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">What Students Say</h2>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Our Programs</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Carefully crafted educational journeys that combine learning with adventure
+            </p>
+          </div>
+          <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {programs.map((program, index) => (
+              <Card key={index} className={`border-none shadow-lg hover:shadow-xl transition-all ${program.featured ? 'ring-2 ring-primary' : ''}`}>
+                {program.featured && (
+                  <div className="bg-gradient-to-r from-primary to-secondary text-white py-3 px-6 rounded-t-xl">
+                    <div className="flex items-center justify-center gap-2 font-semibold">
+                      <Icon name="Star" size={20} className="fill-white" />
+                      Featured Program
+                    </div>
+                  </div>
+                )}
+                <CardContent className="pt-8 pb-8">
+                  <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-3">{program.name}</h3>
+                  <div className="flex items-center text-muted-foreground mb-4">
+                    <Icon name="MapPin" size={18} className="mr-2 text-primary" />
+                    <span className="text-sm">{program.location}</span>
+                  </div>
+                  <p className="text-muted-foreground mb-6 leading-relaxed">{program.description}</p>
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center text-muted-foreground">
+                      <Icon name="Clock" size={18} className="mr-2 text-primary" />
+                      <span className="text-sm">{program.duration}</span>
+                    </div>
+                    <div className={`text-2xl font-bold px-6 py-2 rounded-full ${program.featured ? 'bg-primary text-white' : 'bg-primary/10 text-primary'}`}>
+                      ${program.price.split(' ')[0]}
+                    </div>
+                  </div>
+                  <div className="space-y-2 mb-6">
+                    {program.features.map((feat, idx) => (
+                      <div key={idx} className="flex items-center text-sm text-muted-foreground">
+                        <Icon name="Check" size={18} className="mr-2 text-green-500" />
+                        {feat}
+                      </div>
+                    ))}
+                  </div>
+                  <Button className={`w-full rounded-xl ${program.featured ? '' : 'variant-outline'}`} onClick={() => scrollToSection('contact')}>
+                    {program.featured ? 'Apply Now' : 'Learn More'}
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="reviews" className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">What Students Say</h2>
             <p className="text-xl text-muted-foreground">Real experiences from real travelers</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="hover:shadow-xl transition-shadow">
-                <CardContent className="pt-6">
+              <Card key={index} className="border-none shadow-lg">
+                <CardContent className="pt-8 pb-8">
                   <div className="flex mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Icon key={i} name="Star" size={20} className="text-yellow-400 fill-yellow-400" />
+                      <Icon key={i} name="Star" size={18} className="text-yellow-400 fill-yellow-400" />
                     ))}
                   </div>
-                  <p className="text-lg mb-4 italic">"{testimonial.text}"</p>
+                  <p className="text-muted-foreground mb-6 leading-relaxed italic">"{testimonial.text}"</p>
                   <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                      <Icon name="User" size={24} className="text-primary" />
+                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                      <Icon name="User" size={20} className="text-primary" />
                     </div>
                     <div>
-                      <div className="font-semibold">{testimonial.name}</div>
+                      <div className="font-semibold text-foreground">{testimonial.name}</div>
                       <div className="text-sm text-muted-foreground">{testimonial.country}</div>
                     </div>
                   </div>
@@ -296,41 +306,37 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="about" className="py-20 px-4 bg-white">
+      <section id="about" className="py-20 px-4">
         <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             <div>
               <img 
                 src={galleryImages[1]} 
                 alt="About us" 
-                className="rounded-2xl shadow-xl w-full h-[400px] object-cover"
+                className="rounded-2xl shadow-xl w-full h-[500px] object-cover"
               />
             </div>
             <div className="space-y-6">
-              <h2 className="text-4xl font-bold">About Trip Together</h2>
-              <p className="text-lg text-muted-foreground">
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground">About Trip Together</h2>
+              <p className="text-lg text-muted-foreground leading-relaxed">
                 For over 15 years, we've been dedicated to creating unforgettable educational experiences for students worldwide. Our mission is to broaden horizons, foster cultural understanding, and inspire lifelong learning.
               </p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 bg-accent/20 rounded-lg">
-                  <Icon name="Users" size={32} className="text-primary mb-2" />
-                  <div className="text-2xl font-bold text-primary">10,000+</div>
+              <div className="grid grid-cols-2 gap-6 pt-4">
+                <div>
+                  <div className="text-4xl font-bold text-primary mb-1">10,000+</div>
                   <div className="text-sm text-muted-foreground">Happy Students</div>
                 </div>
-                <div className="p-4 bg-accent/20 rounded-lg">
-                  <Icon name="Award" size={32} className="text-primary mb-2" />
-                  <div className="text-2xl font-bold text-primary">98%</div>
+                <div>
+                  <div className="text-4xl font-bold text-primary mb-1">98%</div>
                   <div className="text-sm text-muted-foreground">Satisfaction Rate</div>
                 </div>
-                <div className="p-4 bg-accent/20 rounded-lg">
-                  <Icon name="Globe" size={32} className="text-primary mb-2" />
-                  <div className="text-2xl font-bold text-primary">25+</div>
+                <div>
+                  <div className="text-4xl font-bold text-primary mb-1">25+</div>
                   <div className="text-sm text-muted-foreground">Countries</div>
                 </div>
-                <div className="p-4 bg-accent/20 rounded-lg">
-                  <Icon name="Shield" size={32} className="text-primary mb-2" />
-                  <div className="text-2xl font-bold text-primary">100%</div>
-                  <div className="text-sm text-muted-foreground">Safe & Secure</div>
+                <div>
+                  <div className="text-4xl font-bold text-primary mb-1">15</div>
+                  <div className="text-sm text-muted-foreground">Years Experience</div>
                 </div>
               </div>
             </div>
@@ -338,24 +344,24 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="gallery" className="py-20 px-4 bg-accent/20">
+      <section id="gallery" className="py-20 px-4 bg-white">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Gallery</h2>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Gallery</h2>
             <p className="text-xl text-muted-foreground">Moments captured from our trips</p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {galleryImages.map((img, index) => (
-              <div key={index} className="relative overflow-hidden rounded-xl shadow-lg group">
+              <div key={index} className="relative overflow-hidden rounded-2xl shadow-lg group aspect-square">
                 <img 
                   src={img} 
                   alt={`Gallery ${index + 1}`} 
-                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300" />
+                <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-300" />
               </div>
             ))}
-            <div className="relative overflow-hidden rounded-xl shadow-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center h-64">
+            <div className="relative overflow-hidden rounded-2xl shadow-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center aspect-square">
               <div className="text-center text-white">
                 <Icon name="Plus" size={48} className="mx-auto mb-2" />
                 <p className="text-xl font-semibold">More Coming Soon!</p>
@@ -365,18 +371,18 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="documents" className="py-20 px-4 bg-white">
-        <div className="container mx-auto max-w-2xl">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Upload Documents</h2>
+      <section id="documents" className="py-20 px-4">
+        <div className="container mx-auto max-w-3xl">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Upload Documents</h2>
             <p className="text-xl text-muted-foreground">Submit your travel documents securely</p>
           </div>
-          <Card>
-            <CardContent className="pt-6 space-y-6">
-              <div className="border-2 border-dashed border-primary/30 rounded-lg p-12 text-center hover:border-primary transition-colors">
+          <Card className="border-none shadow-lg">
+            <CardContent className="pt-8 pb-8 space-y-6">
+              <div className="border-2 border-dashed border-primary/30 rounded-2xl p-16 text-center hover:border-primary transition-colors bg-accent/50">
                 <Icon name="Upload" size={48} className="mx-auto mb-4 text-primary" />
                 <Label htmlFor="file-upload" className="cursor-pointer">
-                  <span className="text-lg font-semibold text-primary">Click to upload</span>
+                  <span className="text-lg font-semibold text-primary block">Click to upload</span>
                   <span className="text-muted-foreground block mt-2">or drag and drop</span>
                 </Label>
                 <Input 
@@ -390,88 +396,94 @@ export default function Index() {
                   Passport, visa, medical records (PDF, JPG, PNG up to 10MB)
                 </p>
               </div>
-              <div className="bg-accent/20 p-4 rounded-lg">
-                <h4 className="font-semibold mb-2 flex items-center">
-                  <Icon name="FileText" size={20} className="mr-2 text-primary" />
-                  Required Documents:
-                </h4>
-                <ul className="space-y-1 text-sm text-muted-foreground ml-7">
-                  <li>• Valid passport (6 months validity)</li>
-                  <li>• Travel visa (if required)</li>
-                  <li>• Medical insurance certificate</li>
-                  <li>• Parental consent (if under 18)</li>
-                  <li>• Recent passport-size photo</li>
-                </ul>
-              </div>
+              <Card className="bg-accent/50 border-none">
+                <CardContent className="pt-6">
+                  <h4 className="font-semibold text-foreground mb-3 flex items-center">
+                    <Icon name="FileText" size={20} className="mr-2 text-primary" />
+                    Required Documents:
+                  </h4>
+                  <ul className="space-y-2 text-sm text-muted-foreground ml-7">
+                    <li>• Valid passport (6 months validity)</li>
+                    <li>• Travel visa (if required)</li>
+                    <li>• Medical insurance certificate</li>
+                    <li>• Parental consent (if under 18)</li>
+                    <li>• Recent passport-size photo</li>
+                  </ul>
+                </CardContent>
+              </Card>
             </CardContent>
           </Card>
         </div>
       </section>
 
-      <section id="contact" className="py-20 px-4 bg-accent/20">
-        <div className="container mx-auto max-w-2xl">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
+      <section id="contact" className="py-20 px-4 bg-white">
+        <div className="container mx-auto max-w-3xl">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Get In Touch</h2>
             <p className="text-xl text-muted-foreground">Ready to start your adventure? Contact us!</p>
           </div>
-          <Card>
-            <CardContent className="pt-6">
-              <form onSubmit={handleSubmit} className="space-y-4">
+          <Card className="border-none shadow-lg">
+            <CardContent className="pt-8 pb-8">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <Label htmlFor="name">Full Name</Label>
+                  <Label htmlFor="name" className="text-base">Full Name</Label>
                   <Input 
                     id="name" 
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    className="mt-2 h-12 rounded-xl"
                     required 
                   />
                 </div>
                 <div>
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email" className="text-base">Email</Label>
                   <Input 
                     id="email" 
                     type="email" 
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    className="mt-2 h-12 rounded-xl"
                     required 
                   />
                 </div>
                 <div>
-                  <Label htmlFor="phone">Phone Number</Label>
+                  <Label htmlFor="phone" className="text-base">Phone Number</Label>
                   <Input 
                     id="phone" 
                     type="tel" 
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    className="mt-2 h-12 rounded-xl"
                     required 
                   />
                 </div>
                 <div>
-                  <Label htmlFor="message">Message</Label>
+                  <Label htmlFor="message" className="text-base">Message</Label>
                   <Textarea 
                     id="message" 
                     rows={5}
                     value={formData.message}
                     onChange={(e) => setFormData({...formData, message: e.target.value})}
                     placeholder="Tell us about your interests and questions..."
+                    className="mt-2 rounded-xl"
                     required 
                   />
                 </div>
-                <Button type="submit" className="w-full" size="lg">
+                <Button type="submit" className="w-full h-12 text-lg rounded-xl">
                   <Icon name="Send" size={20} className="mr-2" />
                   Send Message
                 </Button>
               </form>
               <div className="mt-8 pt-8 border-t space-y-4">
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3 text-muted-foreground">
                   <Icon name="Mail" size={20} className="text-primary" />
                   <span>info@triptogether.com</span>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3 text-muted-foreground">
                   <Icon name="Phone" size={20} className="text-primary" />
                   <span>+1 (555) 123-4567</span>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3 text-muted-foreground">
                   <Icon name="MapPin" size={20} className="text-primary" />
                   <span>123 Education Street, Toronto, Canada</span>
                 </div>
@@ -505,8 +517,8 @@ export default function Index() {
             <div>
               <h4 className="font-semibold mb-4">Programs</h4>
               <ul className="space-y-2 text-sm opacity-80">
-                <li>Canada Adventure</li>
-                <li>Europe Discovery</li>
+                <li>Canada Discovery</li>
+                <li>Europe Journey</li>
                 <li>Australia Experience</li>
                 <li>Custom Programs</li>
               </ul>
